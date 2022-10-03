@@ -69,6 +69,7 @@ def charge():
 
 
 if __name__ == '__main__':
+    # TODO: run as daemon in the background
     print('Daemon starting. Charging between {}% and {}%. Refreshing every {} seconds'.format(CHARGE_LOWER_LIMIT,
                                                                                               CHARGE_UPPER_LIMIT,
                                                                                               REFRESH_TIMER))
