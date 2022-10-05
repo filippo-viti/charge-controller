@@ -1,10 +1,11 @@
 import os.path
+import sys
 import time
 
 from adb_shell.adb_device import AdbDeviceUsb
 from adb_shell.auth.keygen import keygen
 from adb_shell.auth.sign_pythonrsa import PythonRSASigner
-from adb_shell.exceptions import InvalidTransportError
+from adb_shell.exceptions import InvalidTransportError, UsbDeviceNotFoundError
 
 CHARGE_LOWER_LIMIT = 20
 CHARGE_UPPER_LIMIT = 80
@@ -23,8 +24,12 @@ def init_connection():
             print('Attempting to find adb device...')
             device = AdbDeviceUsb()
         except InvalidTransportError:
-            print('Device is missing or package is not installed with [usb] extra option')
-        time.sleep(5)
+            sys.stderr.write(
+                'Error: package is not installed with [usb] extra option, please run pip install adb-shell[usb]')
+            exit()
+        except UsbDeviceNotFoundError:
+            print('Device not found')
+        time.sleep(2)
 
     adbkey_path = './keys/adbkey'
 
